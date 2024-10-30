@@ -11,9 +11,11 @@
   },
   "dependencies": {
     "@nuxt/ui": "^2.18.7",
+    "multiselect": "^0.9.12",
     "nuxt": "^3.13.2",
     "nuxt-auth-sanctum": "^0.5.1",
     "vue": "latest",
+    "vue-good-table-next": "^0.2.2",
     "vue-router": "latest"
   }
 }
