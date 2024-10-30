@@ -4,6 +4,9 @@ export default defineNuxtConfig({
   typescript: {
     shim: false
   },
+  plugins: [
+    '~/plugins/vue-good-table-next.js',
+  ],
   compatibilityDate: '2024-04-03',
   devtools: { enabled: true },
   modules: ['@nuxt/ui', 'nuxt-auth-sanctum'],

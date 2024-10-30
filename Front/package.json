@@ -17,7 +17,9 @@
     "nuxt-auth-sanctum": "^0.5.1",
     "sweetalert2": "^11.14.4",
     "vue": "latest",
+    "vue-good-table": "^2.21.11",
     "vue-good-table-next": "^0.2.2",
-    "vue-router": "latest"
+    "vue-router": "latest",
+    "yup": "^1.4.0"
   }
 }
