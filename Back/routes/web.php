@@ -10,12 +10,12 @@ Route::get('/', function () {
 });
 
 //rutas para factorial
-Route::get('/factorial', [FactorialController::class, 'show']);
-Route::post('/factorial', [FactorialController::class, 'calculate']);
+Route::get('/factorial', [FactorialController::class, 'show'])->name('factorial.show');
+Route::post('/factorial', [FactorialController::class, 'calculate'])->name('factorial.calculate');
 
 //rutas para amortizacion
-Route::get('/amortizacion', [AmortizationController::class, 'show']);
-Route::post('/amortizacion', [AmortizationController::class, 'calculate']);
+Route::get('/amortizacion', [AmortizationController::class, 'show'])->name('amortizacion.show');
+Route::post('/amortizacion', [AmortizationController::class, 'calculate'])->name('amortizacion.calculate');
 
 //rutas para binomio
 Route::get('/binomio', [BinomioController::class, 'show'])->name('binomio.show');

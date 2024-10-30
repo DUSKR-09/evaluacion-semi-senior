@@ -11,12 +11,12 @@
         <h1 class="text-2xl font-bold text-gray-800 mb-4">Pantalla de Inicio</h1>
         <ul class="space-y-3">
             <li>
-                <a href="{{ url('/factorial') }}" class="block text-center py-2 px-4 bg-blue-500 text-white font-semibold rounded hover:bg-blue-600">
+                <a href="{{ route('factorial.show') }}" class="block text-center py-2 px-4 bg-blue-500 text-white font-semibold rounded hover:bg-blue-600">
                     Cálculo de Factorial
                 </a>
             </li>
             <li>
-                <a href="{{ url('/amortizacion') }}" class="block text-center py-2 px-4 bg-green-500 text-white font-semibold rounded hover:bg-green-600">
+                <a href="{{ route('amortizacion.show') }}" class="block text-center py-2 px-4 bg-green-500 text-white font-semibold rounded hover:bg-green-600">
                     Amortización
                 </a>
             </li>
