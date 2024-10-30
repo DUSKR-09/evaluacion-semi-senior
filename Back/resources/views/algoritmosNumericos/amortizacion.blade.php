@@ -13,7 +13,7 @@
     <div class="row">
         <div class="col-sm-12">
             <form action="{{ url('/amortizacion') }}" method="POST">
-                @csrf <!-- Protección contra CSRF -->
+                @csrf
                 <div class="col-sm-3">
                     <label for="monto">Monto:</label>
                     <input type="text" class="form-control" id="monto" name="monto" required>
