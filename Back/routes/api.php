@@ -14,5 +14,5 @@ Route::prefix('auth')->group(function () {
 });
 
 Route::group(['middleware' => 'auth:sanctum'], function () {
-    Route::apiResource('users', 'App\Http\Controllers\API\UserApiController');
+    Route::apiResource('clientes', 'App\Http\Controllers\API\ClienteApiController');
 });
