@@ -12,3 +12,7 @@ Route::prefix('auth')->group(function () {
     Route::post('login', 'App\Http\Controllers\API\Auth\AuthApiController@login')->name('auth.login');
     Route::post('logout', 'App\Http\Controllers\API\Auth\AuthApiController@logout')->middleware('auth:sanctum')->name('auth.logout');
 });
+
+Route::group(['middleware' => 'auth:sanctum'], function () {
+    Route::apiResource('users', 'App\Http\Controllers\API\UserApiController');
+});
