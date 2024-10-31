@@ -2,6 +2,7 @@
 import { ref } from 'vue';
 import MiCard from "~/components/personalized/MiCard.vue";
 const { AlertCuestion, AlertSuccess, AlertError } = useSweetAlert2();
+import Alerta from "~/components/Alerta.vue";
 
 const cliente = useSanctumRequest();
 
@@ -33,6 +34,8 @@ columnsItems.value.push({
 });
 
 let items = ref([]);
+const alertMessage = ref('');
+const alertType = ref('success'); // 'success' o 'error'
 
 // Función para obtener los items
 const getItems = async () => {
@@ -41,7 +44,8 @@ const getItems = async () => {
     items.value = res.data;
   } catch (e) {
     console.error("Error al obtener clientes:", e.message);
-    await AlertError('Error', 'No se pudieron obtener los clientes.');
+    alertMessage.value = 'No se pudieron obtener los clientes.';
+    alertType.value = 'error';
   }
 };
 
@@ -55,13 +59,15 @@ const deleteItem = async (id: number) => {
 
       // Asegúrate de que la respuesta tenga un mensaje
       const message = res.data?.message || 'El cliente ha sido eliminado correctamente.';
-      await AlertSuccess('Cliente Eliminado', message);
+      alertMessage.value = message;
+      alertType.value = 'success';
 
       // Actualizar la lista de clientes después de eliminar uno
       await getItems(); // Llama a getItems para refrescar la tabla
     } catch (e) {
       console.error("Error al eliminar cliente:", e.message);
-      await AlertError('Error', 'No se pudo eliminar el cliente.');
+      alertMessage.value = 'No se pudo eliminar el cliente.';
+      alertType.value = 'error';
     }
   }
 };
@@ -141,6 +147,9 @@ active.value = 'Cliente';
         @click="navigateTo('/')"
         class="mr-1"
     />
+
+    <!-- Aquí muestra la alerta si hay un mensaje -->
+    <Alerta v-if="alertMessage" :type="alertType">{{ alertMessage }}</Alerta>
   </mi-card>
 </template>
 

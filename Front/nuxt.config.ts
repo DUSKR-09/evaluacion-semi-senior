@@ -11,7 +11,7 @@ export default defineNuxtConfig({
     '~/plugins/vue-good-table-next.js',
   ],
   compatibilityDate: '2024-04-03',
-  devtools: { enabled: true },
+  devtools: { enabled: false },
   modules: ['@nuxt/ui', 'nuxt-auth-sanctum'],
 
   sanctum: {
