@@ -1,50 +1,47 @@
 <script lang="ts" setup>
-import {reactive, ref, toRefs} from 'vue';
+import { reactive, ref } from 'vue';
 import { object, string, InferType } from 'yup';
 import type { FormSubmitEvent } from '#ui/types';
 import MiCard from "~/components/personalized/MiCard.vue";
-import InputDate from "~/components/personalized/InputDate.vue";
-// const {notifySuccess, notifyError} = useToastNotifications();
+import Alerta from "~/components/Alerta.vue"; // Importa el componente de alerta
 
-const schema = object({ nombres: string().required("Este campo es requerido"),
-apellidos: string().required("Este campo es requerido"),
-email: string().required("Este campo es requerido"),
-telefono: string().required("Este campo es requerido") }) ;
+const schema = object({
+  nombres: string().required("Este campo es requerido"),
+  apellidos: string().required("Este campo es requerido"),
+  email: string().required("Este campo es requerido"),
+  telefono: string().required("Este campo es requerido")
+});
 
-const state = reactive( { nombres: undefined,
-apellidos: undefined,
-email: undefined,
-telefono: undefined }  );
+const state = reactive({
+  nombres: undefined,
+  apellidos: undefined,
+  email: undefined,
+  telefono: undefined
+});
 
 const cliente = useSanctumRequest();
-
 const formRef = ref();
+const alertMessage = ref('');
+const alertType = ref('success'); // 'success' o 'error'
+
 const onSubmit = async (event: FormSubmitEvent<InferType<typeof schema>>) => {
-
   try {
-
     let res = await cliente.post('/api/clientes', state);
-
-    notifySuccess('Cliente Cread@', res.data.message);
-
+    alertMessage.value = res.data.message; // Mensaje de éxito
+    alertType.value = 'success';
     navigateTo('/clientes');
-
   } catch (e) {
-
-    notifyError('Error', e.message);
-
+    alertMessage.value = e.message; // Mensaje de error
+    alertType.value = 'error';
   }
-
 };
 
-const formatearCampoLabel = (str) => {
-
+const formatearCampoLabel = (str: string) => {
   return str
       .split('_')
       .filter(word => word.toLowerCase() !== 'id')
       .map(word => word.charAt(0).toUpperCase() + word.slice(1))
       .join(' ');
-
 }
 
 function submitForm() {
@@ -53,51 +50,15 @@ function submitForm() {
   }
 }
 
-const valoresInputFormulario1 = ref( [
-  {
-    "label": "Nombres",
-    "type": "text",
-    "key": "nombres"
-  },
-  {
-    "label": "Apellidos",
-    "type": "text",
-    "key": "apellidos"
-  },
-  {
-    "label": "Email",
-    "type": "text",
-    "key": "email"
-  },
-  {
-    "label": "Telefono",
-    "type": "text",
-    "key": "telefono"
-  }
-] );
-
-// const obtenerOpciones = async () => {
-//
-//   try {
-//     let res = await cliente.get('api/direcciones');
-//     return res.data;
-//
-//   } catch (e) {
-//     notifyError('Error', e.message);
-//   }
-//
-// }
-//
-// const opciones = ref([]);
-//
-// onMounted(async () => {
-//   opciones.value = await obtenerOpciones();
-// });
-
+const valoresInputFormulario1 = ref([
+  { label: "Nombres", type: "text", key: "nombres" },
+  { label: "Apellidos", type: "text", key: "apellidos" },
+  { label: "Email", type: "text", key: "email" },
+  { label: "Telefono", type: "text", key: "telefono" }
+]);
 
 const active = useState('activeItem');
 active.value = 'Cliente';
-
 </script>
 
 <template>
@@ -106,53 +67,21 @@ active.value = 'Cliente';
            :state="state"
            class="space-y-4"
            @submit="onSubmit"
-           ref="formRef"
-    >
-
+           ref="formRef">
       <div class="grid grid-cols-1 sm:grid-cols-2 gap-4">
-
-        <template v-for=" (field, index) in valoresInputFormulario1"
-                  :key="index"
-        >
-
+        <template v-for="(field, index) in valoresInputFormulario1" :key="index">
           <div class="flex flex-col space-y-2">
-
-            <UFormGroup
-                :label="field.label + ':'"
-                :name="field.key"
-            >
-
-              <UInput v-if="field.type == 'text' || field.type == 'number' || field.type == 'date'"
+            <UFormGroup :label="field.label + ':'" :name="field.key">
+              <UInput v-if="field.type === 'text' || field.type === 'number' || field.type === 'date'"
                       v-model="state[field.key]"
-                      :type="field.type"
-              />
-
-              <UCheckbox v-if="field.type == 'checkbox'"
+                      :type="field.type" />
+              <UCheckbox v-if="field.type === 'checkbox'"
                          v-model="state[field.key]"
-                         name="notifications"
-              />
-
-
-<!--              ingresar de forma manual cuando sea selector-->
-
-<!--              <USelect v-if="field.type == 'select'"-->
-<!--                       v-model="state[field.key]"-->
-<!--                       :options="opciones"-->
-<!--                       option-attribute="nombre"-->
-<!--                       placeholder="Seleccione una opción"-->
-<!--                       value-attribute="id"-->
-<!--              />-->
-
-
+                         name="notifications" />
             </UFormGroup>
-
           </div>
-
         </template>
       </div>
-
-
-
     </UForm>
 
     <template #footer>
@@ -163,16 +92,15 @@ active.value = 'Cliente';
                  label="Regresar"
                  icon="i-heroicons-arrow-left-end-on-rectangle"
                  @click="navigateTo('/')"
-                 class="mr-1"
-        />
+                 class="mr-1" />
         <UButton type="button"
                  label="Guardar"
                  icon="i-heroicons-bookmark-square"
-                 @click="submitForm"
-        />
+                 @click="submitForm" />
       </div>
     </template>
 
+    <!-- Aquí muestra la alerta si hay un mensaje -->
+    <Alerta v-if="alertMessage" :type="alertType">{{ alertMessage }}</Alerta>
   </mi-card>
 </template>
-
