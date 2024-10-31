@@ -95,6 +95,15 @@ active.value = 'Cliente';
   </div>
 
   <mi-card borderColor="#e74c3c">
+    <UButton
+        color="blue"
+        variant="solid"
+        icon="i-heroicons-user-add"
+        @click="$router.push('/clientes/create')"
+    >
+      Crear Cliente
+    </UButton>
+
     <vue-good-table
         :columns="columnsItems"
         :rows="items"

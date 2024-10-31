@@ -4,6 +4,7 @@ namespace App\Http\Controllers\API;
 
 use App\Http\Controllers\AppBaseController;
 use App\Models\Cliente;
+use Carbon\Carbon;
 use Illuminate\Http\Request;
 
 class ClienteApiController extends AppBaseController
@@ -13,7 +14,7 @@ class ClienteApiController extends AppBaseController
      */
     public function index(Request $request)
     {
-        $users = Cliente::all();
+        $users = Cliente::where('deleted_at', null);
 
         if ($request->primer_nombre) {
             $users->where('primer_nombre', 'like', '%' . $request->name . '%');
@@ -31,7 +32,7 @@ class ClienteApiController extends AppBaseController
             $users->where('email', 'like', '%' . $request->email . '%');
         }
 
-        return $this->sendResponse($users, 'Listado de clientes obtenido exitosamente!');
+        return $this->sendResponse($users->get(), 'Listado de clientes obtenido exitosamente!');
     }
 
     /**
@@ -47,6 +48,13 @@ class ClienteApiController extends AppBaseController
      */
     public function store(Request $request)
     {
+        //validar si el cliente ya existe
+        $cliente = Cliente::where('email', $request->email)->first();
+
+        if ($cliente) {
+            return $this->sendError('Cliente ya existe', 400);
+        }
+
         $input = $request->all();
 
         $cliente = Cliente::create($input);
@@ -103,7 +111,8 @@ class ClienteApiController extends AppBaseController
             return $this->sendError('Cliente no encontrado', 404);
         }
 
-        $cliente->delete();
+        $cliente->deleted_at = Carbon::now();
+        $cliente->save();
 
         return $this->sendSuccess('Cliente eliminado exitosamente!');
     }

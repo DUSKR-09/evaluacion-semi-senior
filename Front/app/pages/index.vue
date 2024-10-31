@@ -18,8 +18,7 @@ const {logout} = useSanctumAuth();
     <template #header>
       <h1>Hola, {{ user?.nombre_completo }}</h1>
 
-      <UButton @click="logout" color="red"
-      block>
+      <UButton @click="logout" color="red">
         Cerrar Sesión
       </UButton>
     </template>
