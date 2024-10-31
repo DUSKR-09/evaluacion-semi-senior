@@ -162,7 +162,7 @@ active.value = 'Cliente';
                  variant="solid"
                  label="Regresar"
                  icon="i-heroicons-arrow-left-end-on-rectangle"
-                 @click="navigateTo('/clientes')"
+                 @click="navigateTo('/')"
                  class="mr-1"
         />
         <UButton type="button"

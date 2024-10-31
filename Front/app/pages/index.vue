@@ -9,12 +9,19 @@ definePageMeta({
 const cliente = useSanctumRequest();
 const user = useSanctumUser();
 // const {notifyError} = useToastNotifications();
+
+const {logout} = useSanctumAuth();
 </script>
 
 <template>
   <mi-card>
     <template #header>
       <h1>Hola, {{ user?.nombre_completo }}</h1>
+
+      <UButton @click="logout" color="red"
+      block>
+        Cerrar Sesión
+      </UButton>
     </template>
 
     <div class="grid grid-cols-1 sm:grid-cols-2 gap-4">

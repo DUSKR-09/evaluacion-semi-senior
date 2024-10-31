@@ -137,6 +137,14 @@ active.value = 'Cliente';
       </template>
 
     </vue-good-table>
+  <UButton type="button"
+           color="red"
+           variant="solid"
+           label="Regresar"
+           icon="i-heroicons-arrow-left-end-on-rectangle"
+           @click="navigateTo('/')"
+           class="mr-1"
+  />
   </mi-card>
 </template>
 

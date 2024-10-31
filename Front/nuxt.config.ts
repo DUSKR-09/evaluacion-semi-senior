@@ -4,6 +4,9 @@ export default defineNuxtConfig({
   typescript: {
     shim: false
   },
+  colorMode: {
+    preference: 'dark'
+  },
   plugins: [
     '~/plugins/vue-good-table-next.js',
   ],

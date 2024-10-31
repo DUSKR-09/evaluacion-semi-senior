@@ -101,8 +101,6 @@ export default defineComponent({
 
   </div>
 
-  <button @click="getUsers">Obtener Usuarios</button>
-
 </template>
 
 <style scoped>
